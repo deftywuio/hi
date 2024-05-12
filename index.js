@@ -1,21 +1,10 @@
-const combSort = (arr) => {
-  const shrinkFactor = 1.3;
-  let gap = arr.length;
-  let swapped = true;
-  while (gap > 1 || swapped) {
-    gap = Math.floor(gap / shrinkFactor);
-    if (gap < 1) {
-      gap = 1;
-    }
-    swapped = false;
-    let i = 0;
-    while (i + gap < arr.length) {
-      if (arr[i] > arr[i + gap]) {
-        [arr[i], arr[i + gap]] = [arr[i + gap], arr[i]];
-        swapped = true;
-      }
-      i++;
-    }
+function rob(nums) {
+  let prevMax = 0;
+  let currMax = 0;
+  for (const num of nums) {
+    const temp = currMax;
+    currMax = Math.max(prevMax + num, currMax);
+    prevMax = temp;
   }
-  return arr;
-};
+  return currMax;
+}
