@@ -1,13 +1,19 @@
-function maxProduct(nums) {
-  if (nums.length === 0) return 0;
-  let maxSoFar = nums[0];
-  let minSoFar = nums[0];
-  let maxProduct = nums[0];
-  for (let i = 1; i < nums.length; i++) {
-    const temp = maxSoFar;
-    maxSoFar = Math.max(nums[i], nums[i] * maxSoFar, nums[i] * minSoFar);
-    minSoFar = Math.min(nums[i], nums[i] * temp, nums[i] * minSoFar);
-    maxProduct = Math.max(maxProduct, maxSoFar);
+function getHint(secret, guess) {
+  let bulls = 0;
+  let cows = 0;
+  const map = new Map();
+  for (let i = 0; i < secret.length; i++) {
+    if (secret[i] === guess[i]) {
+      bulls++;
+    } else {
+      map.set(secret[i], (map.get(secret[i]) || 0) + 1);
+    }
   }
-  return maxProduct;
+  for (let i = 0; i < guess.length; i++) {
+    if (secret[i] !== guess[i] && map.has(guess[i]) && map.get(guess[i]) > 0) {
+      cows++;
+      map.set(guess[i], map.get(guess[i]) - 1);
+    }
+  }
+  return `${bulls}A${cows}B`;
 }
