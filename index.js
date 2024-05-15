@@ -1,19 +1,13 @@
-function getHint(secret, guess) {
-  let bulls = 0;
-  let cows = 0;
-  const map = new Map();
-  for (let i = 0; i < secret.length; i++) {
-    if (secret[i] === guess[i]) {
-      bulls++;
-    } else {
-      map.set(secret[i], (map.get(secret[i]) || 0) + 1);
+function jump(nums) {
+  let jumps = 0;
+  let currentEnd = 0;
+  let farthest = 0;
+  for (let i = 0; i < nums.length - 1; i++) {
+    farthest = Math.max(farthest, i + nums[i]);
+    if (i === currentEnd) {
+      jumps++;
+      currentEnd = farthest;
     }
   }
-  for (let i = 0; i < guess.length; i++) {
-    if (secret[i] !== guess[i] && map.has(guess[i]) && map.get(guess[i]) > 0) {
-      cows++;
-      map.set(guess[i], map.get(guess[i]) - 1);
-    }
-  }
-  return `${bulls}A${cows}B`;
+  return jumps;
 }
